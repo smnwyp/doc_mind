@@ -10,7 +10,7 @@ st.header("DocMind 🧠")
 
 sidebar()
 
-MODEL_LIST = ["space-phi-3.5"]
+MODEL_LIST = ["docmind-model"]
 model: str = st.selectbox("DocMind Model", options=MODEL_LIST)  # type: ignore
 
 uploaded_file = st.file_uploader(
