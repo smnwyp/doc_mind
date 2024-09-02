@@ -1,3 +1,5 @@
+import time
+
 import streamlit as st
 
 from component.sidebar import sidebar
@@ -9,7 +11,7 @@ st.header("📖DocMind")
 sidebar()
 
 MODEL_LIST = ["space-phi-3.5"]
-model: str = st.selectbox("Model", options=MODEL_LIST)  # type: ignore
+model: str = st.selectbox("DocMind Model", options=MODEL_LIST)  # type: ignore
 
 uploaded_file = st.file_uploader(
     "Upload a pdf, docx, or txt file",
@@ -20,8 +22,10 @@ uploaded_file = st.file_uploader(
 if not uploaded_file:
     st.stop()
 
+with st.spinner("⏳ DocMind is reading the document, this may take a while"):
+    time.sleep(2)
 
-st.text_area(label="Initial analysis from DocMind:", value="magic mind reader!")
+st.text_area(label="💫Initial analysis from DocMind:", value="magic mind reader!")
 
 with st.form(key="qa_form"):
     query = st.text_area("Ask your question on the document")
