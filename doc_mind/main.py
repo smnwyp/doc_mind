@@ -6,7 +6,7 @@ from component.sidebar import sidebar
 from helper.ui import is_query_valid
 
 st.set_page_config(page_title="DocMind", page_icon="📖", layout="wide")
-st.header("📖DocMind")
+st.header("DocMind 🧠")
 
 sidebar()
 
@@ -14,7 +14,7 @@ MODEL_LIST = ["space-phi-3.5"]
 model: str = st.selectbox("DocMind Model", options=MODEL_LIST)  # type: ignore
 
 uploaded_file = st.file_uploader(
-    "Upload a pdf, docx, or txt file",
+    "📈 Upload a pdf, docx, or txt file",
     type=["pdf", "docx", "txt"],
     help="Upload your document here!",
 )
@@ -25,10 +25,11 @@ if not uploaded_file:
 with st.spinner("⏳ DocMind is reading the document, this may take a while"):
     time.sleep(2)
 
-st.text_area(label="💫Initial analysis from DocMind:", value="magic mind reader!")
+dummy_reader = "magic mind reader! \n" + "magic analysis 1 \n" + "magic analysis 2 \n"
+st.text_area(label="💫 Initial analysis from DocMind:", value=dummy_reader)
 
 with st.form(key="qa_form"):
-    query = st.text_area("Ask your question on the document")
+    query = st.text_area("😌 Any further questions you'd like to ask about the document?")
     submit = st.form_submit_button("Submit")
 
 if submit:
