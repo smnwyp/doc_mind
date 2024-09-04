@@ -14,8 +14,8 @@ MODEL_LIST = ["docmind-model"]
 model: str = st.selectbox("DocMind Model", options=MODEL_LIST)  # type: ignore
 
 uploaded_file = st.file_uploader(
-    "📈 Upload a pdf, docx, or txt file",
-    type=["pdf", "docx", "txt"],
+    "📈 Upload a pdf or an image file",
+    type=["pdf", "jpg"],
     help="Upload your document here!",
 )
 
