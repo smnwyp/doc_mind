@@ -1,9 +1,7 @@
 import streamlit as st
 
-from helper.core import make_api_call, send_request, dummy_call_summarize, dummy_call_chat
+from helper.core import dummy_call_summarize, dummy_call_chat
 import streamlit as st
-
-from helper.core import make_api_call, get_session_id
 
 
 st.set_page_config(page_title="DocMind", page_icon="📖", layout="wide")
@@ -38,8 +36,8 @@ with st.sidebar:
         st.stop()
 
     with st.spinner("⏳ DocMind is reading the document, this may take a while"):
-        session_id = get_session_id()
-        print(f"sidebar {session_id=}")
+        # session_id = get_session_id()
+        # print(f"sidebar {session_id=}")
         initial_analysis = dummy_call_summarize(doc=uploaded_file)
         # upload_doc = make_api_call(prompt="summarize the content", file=uploaded_file,
         #                                  session_id=get_session_id(creat_new=True))
