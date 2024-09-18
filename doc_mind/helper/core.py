@@ -1,74 +1,78 @@
 import requests
-import json
-from typing import List, Dict
 from requests_toolbelt.multipart.encoder import MultipartEncoder
-from urllib.parse import unquote
 import uuid
 
 import streamlit as st
 
-# API_ENDPOINT = "http://ec2-35-158-252-84.eu-central-1.compute.amazonaws.com:8000/generate"
+from helper.typings import Context, HistoryMessages, ChatResponse, SummarizeResponse
 
-def get_session_id(creat_new: bool=False):
-    if creat_new or 'session_id' not in st.session_state:
-        st.session_state.session_id = str(uuid.uuid4())
-    return st.session_state.session_id
+
+API_ENDPOINT = "http://ec2-35-158-252-84.eu-central-1.compute.amazonaws.com:8000"
 
 
 def dummy_call_summarize(doc) -> dict:
-    print(f"-- summarize called!")
     return {"summary": "succinct and sensible summary here.", "context": "doc context"}
 
 
-def dummy_call_chat(context: str, prompt: List[dict]) -> dict:
-    print(f"---- chat called!")
-    return {"response": f"regarding your query: '{prompt}', \nsth sensible here!"}
+bad_sumarize_response = SummarizeResponse(response="we are experiencing some problems, "
+                                                   "please try again in a few seconds.",
+                                          context= Context(tokens=[]))
+bad_chat_response = ChatResponse(response="we are experiencing some problems, "
+                                          "please try again in a few seconds.")
 
-#
-# def make_api_call(prompt, session_id: str, file=None):
-#     try:
-#         multipart_data = MultipartEncoder(
-#             fields={
-#                 'file': ('file.pdf', file, 'application/pdf')
-#             }
-#         )
-#
-#         # Make the API call
-#         print(prompt)
-#         endpoint = f"{API_ENDPOINT}?prompt={unquote(prompt)}"
-#
-#         response = requests.post(
-#             endpoint,
-#             data=multipart_data,
-#             headers={'Content-Type': multipart_data.content_type}
-#         )
-#
-#         # Check if the request was successful
-#         if response.status_code == 200:
-#             return response.json()
-#         else:
-#             st.error(f"Error: {response.status_code} - {response.text}")
-#             return None
-#
-#     except requests.RequestException as e:
-#         st.error(f"An error occurred: {e}")
-#         return None
-#
-#
-# def send_request(msgs: List[Dict], session_id: str, file=None):
-#     data = {
-#         "request": json.dumps({"msgs": msgs,
-#                                "session_id": session_id})
-#     }
-#
-#     # Prepare the file
-#     files = {
-#         "file": file
-#     }
-#
-#     # Send the POST request
-#     # response = requests.post(API_ENDPOINT, data=data, files=files)
-#     dummy_response = msgs[-1]["content"]
-#     response = {"response": f"about your question '{dummy_response}', here's sth sensible!"}
-#
-#     return response
+
+def call_sumarize(file) -> SummarizeResponse:
+    try:
+        multipart_data = MultipartEncoder(
+            fields={
+                'file': ('file.pdf', file, 'application/pdf')
+            }
+        )
+
+        # Make the API call
+        endpoint = f"{API_ENDPOINT}/summarize"
+
+        response = requests.post(
+            endpoint,
+            data=multipart_data,
+            headers={'Content-Type': multipart_data.content_type}
+        )
+
+        # Check if the request was successful
+        if response.status_code == 200:
+            return response.json()
+        else:
+            st.error(f"Error: {response.status_code} - {response.text}")
+            return bad_sumarize_response
+
+    except requests.RequestException as e:
+        st.error(f"An error occurred: {e}")
+        return bad_sumarize_response
+
+
+def call_chat(context: Context, msgs: HistoryMessages) -> ChatResponse:
+    try:
+        headers = {
+            'accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+
+        # Prepare the data payload
+        data = {
+            "context": context,
+            "msgs": msgs.dict()
+        }
+        # Make the API call
+        endpoint = f"{API_ENDPOINT}/chat"
+        response = requests.post(endpoint, headers=headers, json=data)
+
+        # Check if the request was successful
+        if response.status_code == 200:
+            return response.json()
+        else:
+            st.error(f"Error: {response.status_code} - {response.text}")
+            return bad_chat_response
+
+    except requests.RequestException as e:
+        st.error(f"An error occurred: {e}")
+        return bad_chat_response
