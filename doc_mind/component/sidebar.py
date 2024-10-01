@@ -1,4 +1,6 @@
 import streamlit as st
+import streamlit.components.v1 as components
+from streamlit_modal import Modal
 
 from helper.core import call_sumarize
 
@@ -12,6 +14,37 @@ def sidebar():
             "3. Ask a question about the document \n"
         )
 
+        # Main Streamlit app
+        st.title("Video Pop-up Example")
+
+        # Replace this with your YouTube video URL
+        video_url = "https://www.youtube.com/embed/hFk0VKcM1ns?si=6OfHmpouGIjysUdJ"
+
+        if 'show_modal' not in st.session_state:
+            st.session_state.show_modal = False
+
+            # Button to trigger modal
+        if st.button("Show Video"):
+            st.session_state.show_modal = True
+
+            # Create modal
+        modal = Modal(key="video_modal", title="How to use Docmind")
+
+        if st.session_state.show_modal:
+            with modal.container():
+                st.components.v1.iframe(video_url, width=640, height=360)
+
+                # Button to close modal
+                if st.button("Close Video"):
+                    st.session_state.show_modal = False
+                    st.experimental_rerun()
+
+            # Check if modal is closed (including by the "x" button)
+            if not modal.is_open():
+                st.session_state.show_modal = False
+                st.experimental_rerun()
+
+        st.write("Click the button above to see the video pop-up!")
 
         # st.markdown("---")
         # faq()
@@ -52,3 +85,4 @@ def display_sidebar_feedback():
     with col2:
         if st.button("👎 Dislike"):
             st.error("We're sorry to hear that. We'll try to improve!")
+
