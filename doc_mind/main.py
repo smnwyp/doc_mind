@@ -24,8 +24,6 @@ with col1:
 with col2:
     st.image(docmind_icon_path, width=50)
 
-# st.chat_message("assistant", avatar=docmind_icon_path).write(f"please upload your PDF or image file from the sidebar ↢↢. "
-#                                    f"\nDocMind will perform its magic after that.")
 st.chat_message("assistant", avatar=docmind_icon_path).markdown(
     f"""
     <div style="color: #008080;">
@@ -33,7 +31,7 @@ st.chat_message("assistant", avatar=docmind_icon_path).markdown(
         <br>
         DocMind will perform its magic after that.
     </div>
-    """,
+""",
     unsafe_allow_html=True
 )
 
