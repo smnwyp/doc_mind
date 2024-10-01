@@ -2,6 +2,7 @@ import streamlit as st
 
 from helper.core import call_sumarize
 
+
 def sidebar():
     with st.sidebar:
         st.markdown(
@@ -31,9 +32,23 @@ def sidebar():
                 initial_analysis = call_sumarize(file=uploaded_file)
                 if initial_analysis:
                     st.sidebar.success(
-                        "DocMind has successfully performed initial analysis on the document you uploaded🛸. \n"
-                        " See a short summary in the main chat. ➡️")
+                        "See the initial analysis 🛸 provided by DocMind in the main chat 👉🏻 ")
                     st.session_state.file_processed = True
                     print(f"sidebar == {st.session_state.file_processed=}")
                     st.session_state.context = initial_analysis["context"]
                     st.session_state.summary = initial_analysis["response"]
+
+        display_sidebar_feedback()
+
+
+def display_sidebar_feedback():
+    st.sidebar.header("Feedback")
+    col1, col2 = st.sidebar.columns(2)
+
+    with col1:
+        if st.button("👍 Like"):
+            st.success("Thank you for your feedback!")
+
+    with col2:
+        if st.button("👎 Dislike"):
+            st.error("We're sorry to hear that. We'll try to improve!")
