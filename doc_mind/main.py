@@ -1,10 +1,16 @@
+import os
+
 import streamlit as st
 
-from helper.core import call_sumarize, call_chat
+from helper.core import call_chat
 from helper.typings import Context, HistoryMessages, Message
 from component.sidebar import sidebar
 
-docmind_icon_path = "./static/docmind.jpeg"
+current_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Construct the path to the avatar
+avatar_filename = "docmind.jpeg"  # Replace with your actual filename
+docmind_icon_path = os.path.join(current_dir, "static", avatar_filename)
 user_icon = "❓"
 assistant = "assistant"
 user = "user"
