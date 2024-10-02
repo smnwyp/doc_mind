@@ -10,13 +10,13 @@ from component.sidebar import sidebar
 
 st.set_page_config(page_title="DocMind", page_icon="📖", layout="wide")
 
-col1, col2 = st.columns([1, 6])  # Adjust the ratio as needed
+col1, col2 = st.columns([1, 5])  # Adjust the ratio as needed
 with col1:
     st.header("DocMind")
 with col2:
     st.image(docmind_icon_path, width=50)
 
-instruction = """Please upload your PDF or image file from the sidebar on the left 👈🏻
+instruction = """Upload your PDF or image file from the sidebar on the left 👈🏻
 <br>
 DocMind will perform its magic after that."""
 display_message(role=assistant, message=instruction)

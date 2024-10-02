@@ -4,18 +4,31 @@ from streamlit_modal import Modal
 
 from helper.core import call_sumarize
 
-
 def sidebar():
+    st.markdown("""
+    <style>
+    [data-testid="stSidebar"] {
+        background-color:  #e6f3f3;
+    }
+    .stMarkdown {
+        color: #003333;
+    }
+     h1, h2, h3 {
+         color: #003333 !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
     with st.sidebar:
         st.markdown(
-            "## How to use\n"
-            "1. Upload a pdf, docx, or txt file \n"
-            "2. Review DocMind's take on the file \n"
-            "3. Ask a question about the document \n"
+            "# How to use\n"
+            "💸💸 It's totally FREE to use Docmind !!\n"
+            "1. Upload a pdf or image file in the sidebar \n"
+            "2. Review DocMind's initial analysis in the main chat \n"
+            "3. Ask Docmind follow-up questions and be amazed 👍🏻 \n"
         )
 
         # Main Streamlit app
-        st.title("Video Pop-up Example")
 
         # Replace this with your YouTube video URL
         video_url = "https://www.youtube.com/embed/hFk0VKcM1ns?si=6OfHmpouGIjysUdJ"
@@ -24,7 +37,7 @@ def sidebar():
             st.session_state.show_modal = False
 
             # Button to trigger modal
-        if st.button("Show Video"):
+        if st.button("Click to Watch How to Use Docmind"):
             st.session_state.show_modal = True
 
             # Create modal
@@ -44,12 +57,12 @@ def sidebar():
                 st.session_state.show_modal = False
                 st.experimental_rerun()
 
-        st.write("Click the button above to see the video pop-up!")
-
         # st.markdown("---")
         # faq()
 
         st.markdown("---")
+        st.markdown(
+            "# Upload File Here\n")
 
         if not st.session_state.file_processed:
             uploaded_file = st.sidebar.file_uploader(
@@ -71,7 +84,11 @@ def sidebar():
                     st.session_state.context = initial_analysis["context"]
                     st.session_state.summary = initial_analysis["response"]
 
+
+
+
         display_sidebar_feedback()
+
 
 
 def display_sidebar_feedback():
