@@ -2,7 +2,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 from streamlit_modal import Modal
 
-from helper.core import call_sumarize
+from helper.core import call_sumarize, send_feedback
 
 def sidebar():
     st.markdown("""
@@ -50,12 +50,12 @@ def sidebar():
                 # Button to close modal
                 if st.button("Close Video"):
                     st.session_state.show_modal = False
-                    st.experimental_rerun()
+                    # st.experimental_rerun()
 
             # Check if modal is closed (including by the "x" button)
             if not modal.is_open():
                 st.session_state.show_modal = False
-                st.experimental_rerun()
+                # st.experimental_rerun()
 
         # st.markdown("---")
         # faq()
@@ -83,12 +83,7 @@ def sidebar():
                     print(f"sidebar == {st.session_state.file_processed=}")
                     st.session_state.context = initial_analysis["context"]
                     st.session_state.summary = initial_analysis["response"]
-
-
-
-
         display_sidebar_feedback()
-
 
 
 def display_sidebar_feedback():
@@ -97,9 +92,11 @@ def display_sidebar_feedback():
 
     with col1:
         if st.button("👍 Like"):
+            send_feedback(feedback_type="like", unique_id=st.session_state.context)
             st.success("Thank you for your feedback!")
 
     with col2:
         if st.button("👎 Dislike"):
+            send_feedback(feedback_type="dislike", unique_id=st.session_state.context)
             st.error("We're sorry to hear that. We'll try to improve!")
 
