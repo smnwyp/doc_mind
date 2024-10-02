@@ -3,37 +3,23 @@ import os
 import streamlit as st
 
 from helper.core import call_chat
+from helper.display import display_message, user, assistant, docmind_icon_path
 from helper.typings import Context, HistoryMessages, Message
 from component.sidebar import sidebar
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-
-# Construct the path to the avatar
-avatar_filename = "docmind.jpeg"  # Replace with your actual filename
-docmind_icon_path = os.path.join(current_dir, "static", avatar_filename)
-user_icon = "❓"
-assistant = "assistant"
-user = "user"
-avatar_profiles = {assistant: docmind_icon_path, user: user_icon}
 
 st.set_page_config(page_title="DocMind", page_icon="📖", layout="wide")
 
-col1, col2 = st.columns([1, 6])  # Adjust the ratio as needed
+col1, col2 = st.columns([1, 5])  # Adjust the ratio as needed
 with col1:
     st.header("DocMind")
 with col2:
     st.image(docmind_icon_path, width=50)
 
-st.chat_message("assistant", avatar=docmind_icon_path).markdown(
-    f"""
-    <div style="color: #008080;">
-        Please upload your PDF or image file from the sidebar on the left 👈🏻
-        <br>
-        DocMind will perform its magic after that.
-    </div>
-""",
-    unsafe_allow_html=True
-)
+instruction = """Upload your PDF or image file from the sidebar on the left 👈🏻
+<br>
+DocMind will perform its magic after that."""
+display_message(role=assistant, message=instruction)
 
 # Initialize session state variables
 if 'messages' not in st.session_state:
@@ -68,22 +54,22 @@ model: str = st.selectbox("DocMind Model", options=MODEL_LIST)  # type: ignore
 # first turn as Docmind providing initial analysis
 default_assistant_prompt = "Let DocMind summarize the document for you."
 
-st.chat_message(assistant, avatar=avatar_profiles[assistant]).write(default_assistant_prompt)
-st.chat_message(assistant, avatar=avatar_profiles[assistant]).write(f"💫 Initial analysis from DocMind:  \n{st.session_state.summary}")
+display_message(role=assistant, message=default_assistant_prompt)
+display_message(role=assistant, message=f"💫 Initial analysis from DocMind:  \n{st.session_state.summary}")
 
 # normal chatting
 if "messages" not in st.session_state:
     st.session_state["messages"] = [Message(role="assistant", content=default_assistant_prompt)]
 
 for msg in st.session_state.messages.msgs:
-    st.chat_message(msg.role, avatar=avatar_profiles[msg.role]).write(msg.content)
+    display_message(role=msg.role, message=msg.content)
 
 if prompt := st.chat_input():
     st.session_state.messages.msgs.append(Message(role="user", content=prompt))
-    st.chat_message(user, avatar=avatar_profiles[user]).write(prompt)
+    display_message(role=user, message=prompt)
     chat_response = call_chat(context=st.session_state.context, msgs=st.session_state.messages)
     msg = chat_response["response"]
     st.session_state.messages.msgs.append(Message(role="assistant", content=msg))
-    st.chat_message(assistant, avatar=avatar_profiles[assistant]).write(msg)
+    display_message(role=assistant, message=msg)
 
 

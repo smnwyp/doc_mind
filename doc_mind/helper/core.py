@@ -76,3 +76,10 @@ def call_chat(context: Context, msgs: HistoryMessages) -> ChatResponse:
     except requests.RequestException as e:
         st.error(f"An error occurred: {e}")
         return bad_chat_response
+
+
+def send_feedback(feedback_type, unique_id):
+    requests.post(
+        f"{API_ENDPOINT}/like_dislike",
+        json={"feedback": feedback_type, "id": unique_id}
+    )
