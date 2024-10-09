@@ -11,6 +11,7 @@ docmind_icon_path = os.path.join(current_dir, "../static", avatar_filename)
 user_icon = "❓"
 assistant = "assistant"
 user = "user"
+feedback_response = "Thank you very much for your feedback!"
 
 avatar_profiles = {assistant: docmind_icon_path, user: user_icon}
 color_scheme = {assistant: "#008080", user: "#000000"}

@@ -66,7 +66,7 @@ def sidebar():
 
         if not st.session_state.file_processed:
             uploaded_file = st.sidebar.file_uploader(
-                "📈 Upload a pdf or an image file",
+                "",
                 type=["pdf", "jpg"],
                 help="Upload your document here!",
             )
@@ -93,10 +93,10 @@ def display_sidebar_feedback():
     with col1:
         if st.button("👍 Like"):
             send_feedback(feedback_type="like", unique_id=st.session_state.context)
-            st.success("Thank you for your feedback!")
+            st.success("😁")
 
     with col2:
         if st.button("👎 Dislike"):
             send_feedback(feedback_type="dislike", unique_id=st.session_state.context)
-            st.error("We're sorry to hear that. We'll try to improve!")
+            st.error("🥹")
 
