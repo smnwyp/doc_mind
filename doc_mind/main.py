@@ -75,7 +75,7 @@ if not st.session_state.feedback_tooltip_displayed:
 print(f"--after {st.session_state.feedback_tooltip_displayed=}")
 
 if prompt := st.chat_input():
-    if prompt.startswith("/feedback "):
+    if prompt.lower().startswith("/feedback "):
         display_message(role=user, message=prompt)
         display_message(role=assistant, message=feedback_response)
         call_chat(context=st.session_state.context,
