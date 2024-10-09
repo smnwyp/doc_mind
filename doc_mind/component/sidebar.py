@@ -21,8 +21,9 @@ def sidebar():
 
     with st.sidebar:
         st.markdown(
-            "# How to use\n"
             "💸💸 It's totally FREE to use Docmind !!\n"
+            "🤞🏻🤞🏻 Docmind does NOT store your data \n"
+            "# How to use\n"            
             "1. Upload a pdf or image file in the sidebar \n"
             "2. Review DocMind's initial analysis in the main chat \n"
             "3. Ask Docmind follow-up questions and be amazed 👍🏻 \n"
@@ -50,15 +51,15 @@ def sidebar():
                 # Button to close modal
                 if st.button("Close Video"):
                     st.session_state.show_modal = False
-                    # st.experimental_rerun()
 
             # Check if modal is closed (including by the "x" button)
             if not modal.is_open():
                 st.session_state.show_modal = False
-                # st.experimental_rerun()
 
         # st.markdown("---")
         # faq()
+        st.markdown(
+            "Interested in customized solutions? Contact us at contact.docmind@gmail.com .")
 
         st.markdown("---")
         st.markdown(
@@ -66,7 +67,7 @@ def sidebar():
 
         if not st.session_state.file_processed:
             uploaded_file = st.sidebar.file_uploader(
-                "📈 Upload a pdf or an image file",
+                "",
                 type=["pdf", "jpg"],
                 help="Upload your document here!",
             )
@@ -93,10 +94,10 @@ def display_sidebar_feedback():
     with col1:
         if st.button("👍 Like"):
             send_feedback(feedback_type="like", unique_id=st.session_state.context)
-            st.success("Thank you for your feedback!")
+            st.success("😁")
 
     with col2:
         if st.button("👎 Dislike"):
             send_feedback(feedback_type="dislike", unique_id=st.session_state.context)
-            st.error("We're sorry to hear that. We'll try to improve!")
+            st.error("🥹")
 
