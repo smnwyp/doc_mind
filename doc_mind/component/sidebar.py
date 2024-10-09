@@ -21,8 +21,9 @@ def sidebar():
 
     with st.sidebar:
         st.markdown(
-            "# How to use\n"
             "💸💸 It's totally FREE to use Docmind !!\n"
+            "🤞🏻🤞🏻 Docmind does NOT store your data \n"
+            "# How to use\n"            
             "1. Upload a pdf or image file in the sidebar \n"
             "2. Review DocMind's initial analysis in the main chat \n"
             "3. Ask Docmind follow-up questions and be amazed 👍🏻 \n"
@@ -50,15 +51,15 @@ def sidebar():
                 # Button to close modal
                 if st.button("Close Video"):
                     st.session_state.show_modal = False
-                    # st.experimental_rerun()
 
             # Check if modal is closed (including by the "x" button)
             if not modal.is_open():
                 st.session_state.show_modal = False
-                # st.experimental_rerun()
 
         # st.markdown("---")
         # faq()
+        st.markdown(
+            "Interested in customized solutions? Contact us at contact.docmind@gmail.com .")
 
         st.markdown("---")
         st.markdown(
