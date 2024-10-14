@@ -67,12 +67,10 @@ if "messages" not in st.session_state:
 for msg in st.session_state.messages.msgs:
     display_message(role=msg.role, message=msg.content)
 
-print(f"--before {st.session_state.feedback_tooltip_displayed=}")
+
 if not st.session_state.feedback_tooltip_displayed:
     hover()
     st.session_state.feedback_tooltip_displayed = True
-
-print(f"--after {st.session_state.feedback_tooltip_displayed=}")
 
 if prompt := st.chat_input():
     if prompt.lower().startswith("/feedback "):
