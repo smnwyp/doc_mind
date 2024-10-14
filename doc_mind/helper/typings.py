@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 class Context(BaseModel):
     tokens: List[str] = []
+    bboxes: List[List[float]] = [[]]
 
 
 class ChatResponse(BaseModel):
