@@ -57,15 +57,18 @@ model: str = st.selectbox("DocMind Model", options=MODEL_LIST)  # type: ignore
 # first turn as Docmind providing initial analysis
 default_assistant_prompt = "Let DocMind summarize the document for you."
 
-display_message(role=assistant, message=default_assistant_prompt)
-display_message(role=assistant, message=f"💫 Initial analysis from DocMind:  \n{st.session_state.summary}")
+# display_message(role=assistant, message=default_assistant_prompt)
+display_message(role=assistant, message=f"💫 Quick summary of the document from DocMind: ")
+display_message(role=assistant, message=f"{st.session_state.summary}")
 
 # normal chatting
 if "messages" not in st.session_state:
     st.session_state["messages"] = [Message(role="assistant", content=default_assistant_prompt)]
 
-for msg in st.session_state.messages.msgs:
-    display_message(role=msg.role, message=msg.content)
+st.session_state.messages.msgs.append(
+    Message(role=user, content="Can you summarize the document for me?"))
+st.session_state.messages.msgs.append(
+    Message(role=assistant, content=st.session_state.summary))
 
 
 if not st.session_state.feedback_tooltip_displayed:

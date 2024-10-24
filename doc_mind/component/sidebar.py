@@ -2,6 +2,8 @@ import streamlit as st
 import streamlit.components.v1 as components
 from streamlit_modal import Modal
 
+from helper.display import user, assistant
+from helper.typings import Message
 from helper.core import call_sumarize, send_feedback
 
 def sidebar():
@@ -84,6 +86,7 @@ def sidebar():
                     print(f"sidebar == {st.session_state.file_processed=}")
                     st.session_state.context = initial_analysis["context"]
                     st.session_state.summary = initial_analysis["response"]
+
         display_sidebar_feedback()
 
 
