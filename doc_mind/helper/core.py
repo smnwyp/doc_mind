@@ -7,7 +7,7 @@ import streamlit as st
 from helper.typings import Context, HistoryMessages, ChatResponse, SummarizeResponse
 
 
-API_ENDPOINT = "http://ec2-35-158-252-84.eu-central-1.compute.amazonaws.com:8000"
+API_ENDPOINT = "http://ec2-52-0-1-83.compute-1.amazonaws.com:8000"
 
 
 def dummy_call_summarize(doc) -> dict:
